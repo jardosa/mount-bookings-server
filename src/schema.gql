@@ -1,0 +1,97 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Post implements Node {
+  _id: ID!
+  isPublished: Boolean!
+  authorId: ID!
+}
+
+interface Node {
+  _id: ID!
+}
+
+type Author {
+  _id: ID!
+  firstName: String
+  lastName: String
+  posts: [Post]!
+}
+
+type User implements Node {
+  _id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+}
+
+type Auth {
+  access_token: String!
+}
+
+type Query {
+  author(id: Int!): Author!
+  posts: [Post!]!
+  post(id: Int!): Post!
+  ping: String!
+  users: [User!]!
+  userById(id: String!): User!
+  whoAmI: User!
+}
+
+type Mutation {
+  createAuthor(createAuthorInput: CreateAuthorInput!): Author!
+  updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
+  removeAuthor(id: Int!): Author!
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post!
+  echo(message: String!): String!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  login(loginInput: LoginInput!): Auth!
+}
+
+input CreateAuthorInput {
+  firstName: String
+  lastName: String = ""
+}
+
+input UpdateAuthorInput {
+  firstName: String
+  lastName: String = ""
+  id: Int!
+}
+
+input CreatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  id: Int!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
