@@ -1,26 +1,60 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateMemberInput } from './dto/create-member.input';
 import { UpdateMemberInput } from './dto/update-member.input';
+import MemberConnection from './entities/memberConnection.entity';
+import { Member, MemberDocument } from './schemas/members.schema';
 
 @Injectable()
 export class MembersService {
-  create(createMemberInput: CreateMemberInput) {
-    return 'This action adds a new member';
+  constructor(
+    @InjectModel(Member.name) private memberModel: Model<MemberDocument>,
+  ) {}
+  create(createMemberInput: CreateMemberInput): Promise<Member> {
+    const createdMember = new this.memberModel(createMemberInput);
+    return createdMember.save();
   }
 
-  findAll() {
-    return `This action returns all members`;
+  async findAll(): Promise<MemberConnection> {
+    const members = await this.memberModel.find();
+    console.log(members);
+
+    return {
+      totalCount: members.length,
+      nodes: members,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
+  async findOne(id: string): Promise<MemberDocument> {
+    const member = await this.memberModel.findOne({ id });
+
+    if (!member) {
+      throw new NotFoundException('User not found');
+    }
+    return member;
   }
 
-  update(id: number, updateMemberInput: UpdateMemberInput) {
-    return `This action updates a #${id} member`;
+  async update(
+    id: string,
+    updateMemberInput: UpdateMemberInput,
+  ): Promise<MemberDocument> {
+    const member = await this.memberModel.findByIdAndUpdate(id, {
+      ...updateMemberInput,
+    });
+    if (!member) {
+      throw new NotFoundException('Member not found');
+    }
+    return member;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+  async remove(id: string) {
+    const memberToDelete = await this.memberModel.findByIdAndDelete(id);
+
+    if (!memberToDelete) {
+      throw new NotFoundException('Member not found');
+    }
+
+    return memberToDelete;
   }
 }

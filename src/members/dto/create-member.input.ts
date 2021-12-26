@@ -1,7 +1,5 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+import { Member } from '../schemas/members.schema';
 
 @InputType()
-export class CreateMemberInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
-}
+export class CreateMemberInput extends Member {}

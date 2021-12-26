@@ -1,7 +1,9 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
+import Node from 'src/base/entities/Node';
+import { Member } from '../schemas/members.schema';
 
-@ObjectType()
-export class Member {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+@ObjectType({ implements: [Node] })
+export class MemberEntity extends Member {
+  @Field(() => ID)
+  _id: string;
 }

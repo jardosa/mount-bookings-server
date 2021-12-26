@@ -1,35 +1,40 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { MembersService } from './members.service';
-import { Member } from './entities/member.entity';
+import { MemberEntity } from './entities/member.entity';
 import { CreateMemberInput } from './dto/create-member.input';
 import { UpdateMemberInput } from './dto/update-member.input';
+import MemberConnection from './entities/memberConnection.entity';
 
-@Resolver(() => Member)
+@Resolver(() => MemberEntity)
 export class MembersResolver {
   constructor(private readonly membersService: MembersService) {}
 
-  @Mutation(() => Member)
-  createMember(@Args('createMemberInput') createMemberInput: CreateMemberInput) {
+  @Mutation(() => MemberEntity)
+  createMember(
+    @Args('createMemberInput') createMemberInput: CreateMemberInput,
+  ) {
     return this.membersService.create(createMemberInput);
   }
 
-  @Query(() => [Member], { name: 'members' })
+  @Query(() => MemberConnection, { name: 'members' })
   findAll() {
     return this.membersService.findAll();
   }
 
-  @Query(() => Member, { name: 'member' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => MemberEntity, { name: 'member' })
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.membersService.findOne(id);
   }
 
-  @Mutation(() => Member)
-  updateMember(@Args('updateMemberInput') updateMemberInput: UpdateMemberInput) {
-    return this.membersService.update(updateMemberInput.id, updateMemberInput);
+  @Mutation(() => MemberEntity)
+  updateMember(
+    @Args('updateMemberInput') updateMemberInput: UpdateMemberInput,
+  ) {
+    return this.membersService.update(updateMemberInput._id, updateMemberInput);
   }
 
-  @Mutation(() => Member)
-  removeMember(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => MemberEntity)
+  removeMember(@Args('id') id: string) {
     return this.membersService.remove(id);
   }
 }

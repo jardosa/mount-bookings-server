@@ -30,6 +30,32 @@ type Auth {
   access_token: String!
 }
 
+type MemberEntity implements Node {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  email: String!
+  emergencyContactName: String
+  emergencyContactNumber: String
+  emergencyContactEmailAddress: String
+  birthday: DateTime
+  _id: ID!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type MemberConnection implements NodeConnection {
+  totalCount: Int!
+  nodes: [MemberEntity!]!
+}
+
+interface NodeConnection {
+  totalCount: Int!
+}
+
 type Query {
   author(id: Int!): Author!
   posts: [Post!]!
@@ -38,6 +64,8 @@ type Query {
   users: [User!]!
   userById(id: String!): User!
   whoAmI: User!
+  members: MemberConnection!
+  member(id: String!): MemberEntity!
 }
 
 type Mutation {
@@ -52,6 +80,9 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   login(loginInput: LoginInput!): Auth!
+  createMember(createMemberInput: CreateMemberInput!): MemberEntity!
+  updateMember(updateMemberInput: UpdateMemberInput!): MemberEntity!
+  removeMember(id: String!): MemberEntity!
 }
 
 input CreateAuthorInput {
@@ -94,4 +125,27 @@ input UpdateUserInput {
 input LoginInput {
   email: String!
   password: String!
+}
+
+input CreateMemberInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  email: String!
+  emergencyContactName: String
+  emergencyContactNumber: String
+  emergencyContactEmailAddress: String
+  birthday: DateTime
+}
+
+input UpdateMemberInput {
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  email: String!
+  emergencyContactName: String
+  emergencyContactNumber: String
+  emergencyContactEmailAddress: String
+  birthday: DateTime
+  _id: ID!
 }
