@@ -56,6 +56,27 @@ interface NodeConnection {
   totalCount: Int!
 }
 
+type ReservationEntity implements Node {
+  leader: MemberEntity!
+  members: [MemberEntity!]!
+  reservationStatus: Status!
+  hikeDateStart: DateTime!
+  hikeDateEnd: DateTime!
+  _id: ID!
+}
+
+enum Status {
+  Pending
+  Approved
+  Declined
+  Cancelled
+}
+
+type ReservationConnection implements NodeConnection {
+  totalCount: Int!
+  nodes: [ReservationEntity!]!
+}
+
 type Query {
   author(id: Int!): Author!
   posts: [Post!]!
@@ -66,6 +87,8 @@ type Query {
   whoAmI: User!
   members: MemberConnection!
   member(id: String!): MemberEntity!
+  reservations: ReservationConnection!
+  reservation(id: ID!): ReservationEntity!
 }
 
 type Mutation {
@@ -83,6 +106,9 @@ type Mutation {
   createMember(createMemberInput: CreateMemberInput!): MemberEntity!
   updateMember(updateMemberInput: UpdateMemberInput!): MemberEntity!
   removeMember(id: String!): MemberEntity!
+  createReservation(createReservationInput: CreateReservationInput!): ReservationEntity!
+  updateReservation(updateReservationInput: UpdateReservationInput!): ReservationEntity!
+  removeReservation(id: ID!): ReservationEntity!
 }
 
 input CreateAuthorInput {
@@ -147,5 +173,17 @@ input UpdateMemberInput {
   emergencyContactNumber: String
   emergencyContactEmailAddress: String
   birthday: DateTime
+  _id: ID!
+}
+
+input CreateReservationInput {
+  leader: CreateMemberInput!
+  members: [CreateMemberInput!]!
+  reservationStatus: Status!
+  hikeDateStart: DateTime!
+  hikeDateEnd: DateTime!
+}
+
+input UpdateReservationInput {
   _id: ID!
 }

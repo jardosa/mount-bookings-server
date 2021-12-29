@@ -19,6 +19,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CaslModule } from './casl/casl.module';
 import { MembersModule } from './members/members.module';
+import { ReservationsModule } from './reservations/reservations.module';
 import config from './config';
 
 @Module({
@@ -39,6 +40,7 @@ import config from './config';
     AuthModule,
     CaslModule,
     MembersModule,
+    ReservationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -11,14 +11,13 @@ export class MembersService {
   constructor(
     @InjectModel(Member.name) private memberModel: Model<MemberDocument>,
   ) {}
-  create(createMemberInput: CreateMemberInput): Promise<Member> {
+  async create(createMemberInput: CreateMemberInput): Promise<Member> {
     const createdMember = new this.memberModel(createMemberInput);
     return createdMember.save();
   }
 
   async findAll(): Promise<MemberConnection> {
     const members = await this.memberModel.find();
-    console.log(members);
 
     return {
       totalCount: members.length,
