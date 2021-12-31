@@ -86,9 +86,9 @@ type Query {
   userById(id: String!): User!
   whoAmI: User!
   members: MemberConnection!
-  member(id: String!): MemberEntity!
+  member(_id: String!): MemberEntity!
   reservations: ReservationConnection!
-  reservation(id: ID!): ReservationEntity!
+  reservation(_id: ID!): ReservationEntity!
 }
 
 type Mutation {
@@ -105,10 +105,10 @@ type Mutation {
   login(loginInput: LoginInput!): Auth!
   createMember(createMemberInput: CreateMemberInput!): MemberEntity!
   updateMember(updateMemberInput: UpdateMemberInput!): MemberEntity!
-  removeMember(id: String!): MemberEntity!
+  removeMember(_id: String!): MemberEntity!
   createReservation(createReservationInput: CreateReservationInput!): ReservationEntity!
   updateReservation(updateReservationInput: UpdateReservationInput!): ReservationEntity!
-  removeReservation(id: ID!): ReservationEntity!
+  removeReservation(_id: ID!): ReservationEntity!
 }
 
 input CreateAuthorInput {
@@ -179,11 +179,16 @@ input UpdateMemberInput {
 input CreateReservationInput {
   leader: CreateMemberInput!
   members: [CreateMemberInput!]!
-  reservationStatus: Status!
   hikeDateStart: DateTime!
   hikeDateEnd: DateTime!
+  reservationStatus: Status = Pending
 }
 
 input UpdateReservationInput {
+  leader: CreateMemberInput
+  members: [CreateMemberInput!]
+  hikeDateStart: DateTime
+  hikeDateEnd: DateTime
+  reservationStatus: Status = Pending
   _id: ID!
 }

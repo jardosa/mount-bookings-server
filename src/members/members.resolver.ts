@@ -22,8 +22,8 @@ export class MembersResolver {
   }
 
   @Query(() => MemberEntity, { name: 'member' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.membersService.findOne(id);
+  findOne(@Args('_id', { type: () => String }) id: string) {
+    return this.membersService.findOneById(id);
   }
 
   @Mutation(() => MemberEntity)
@@ -34,7 +34,7 @@ export class MembersResolver {
   }
 
   @Mutation(() => MemberEntity)
-  removeMember(@Args('id') id: string) {
+  removeMember(@Args('_id') id: string) {
     return this.membersService.remove(id);
   }
 }

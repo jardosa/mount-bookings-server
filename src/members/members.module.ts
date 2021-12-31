@@ -8,6 +8,7 @@ import { MembersResolver } from './members.resolver';
   imports: [
     MongooseModule.forFeature([{ name: Member.name, schema: MemberSchema }]),
   ],
+  exports: [MembersService],
   providers: [MembersResolver, MembersService],
 })
 export class MembersModule {}

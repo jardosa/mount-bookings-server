@@ -1,3 +1,4 @@
+import { MemberKeys } from './interfaces/memberKeys.interface';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -11,7 +12,24 @@ export class MembersService {
   constructor(
     @InjectModel(Member.name) private memberModel: Model<MemberDocument>,
   ) {}
-  async create(createMemberInput: CreateMemberInput): Promise<Member> {
+
+  async findOneOrCreate(member: Member): Promise<MemberDocument> {
+    const memberDoc = await this.memberModel.findOne({
+      email: member.email,
+      firstName: member.firstName,
+      lastName: member.lastName,
+    });
+
+    if (memberDoc) {
+      return memberDoc;
+    }
+
+    const newMemberDoc = new this.memberModel(member);
+
+    return newMemberDoc.save();
+  }
+
+  async create(createMemberInput: CreateMemberInput): Promise<MemberDocument> {
     const createdMember = new this.memberModel(createMemberInput);
     return createdMember.save();
   }
@@ -25,13 +43,30 @@ export class MembersService {
     };
   }
 
-  async findOne(id: string): Promise<MemberDocument> {
+  async findOne(args: MemberKeys): Promise<MemberDocument | null> {
+    const member = await this.memberModel.findOne(args);
+    return member;
+  }
+
+  async findOneById(id: string): Promise<MemberDocument | null> {
     const member = await this.memberModel.findOne({ id });
 
-    if (!member) {
-      throw new NotFoundException('User not found');
-    }
     return member;
+  }
+
+  async findOneByEmail(email: string): Promise<MemberDocument | null> {
+    const member = await this.memberModel.findOne({ email });
+
+    return member;
+  }
+
+  async findReservationMembers(
+    ...args: string[]
+  ): Promise<MemberDocument[] | []> {
+    const ids = args;
+    const members = await this.memberModel.find({ _id: { $in: ids } });
+
+    return members;
   }
 
   async update(

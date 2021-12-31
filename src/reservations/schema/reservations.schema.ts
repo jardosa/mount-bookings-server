@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 // import { CreateMemberInput } from './../../members/dto/create-member.input';
 
 import { MemberSchema } from './../../members/schemas/members.schema';
@@ -12,11 +13,11 @@ export type ReservationDocument = Reservation & Document;
 @ObjectType({ isAbstract: true })
 @Schema({ timestamps: true })
 export class Reservation {
-  @Prop({ type: MemberSchema })
+  @Prop({ type: Types.ObjectId })
   @Field(() => MemberEntity)
   leader: MemberEntity;
 
-  @Prop({ type: [MemberSchema] })
+  @Prop({ type: [Types.ObjectId] })
   @Field(() => [MemberEntity])
   members: MemberEntity[];
 
