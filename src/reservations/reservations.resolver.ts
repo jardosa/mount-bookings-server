@@ -65,16 +65,15 @@ export class ReservationsResolver {
     const reservationDoc = this.reservationsService.remove(id);
     return reservationDoc;
   }
-  // @Mutation(() => ReservationEntity)
-  // async updateReservationStatus(
-  //   @Args('_id', { type: () => ID }) id: string,
-  //   @Args('status', { type: () => ReservationStatus })
-  //   status: ReservationStatus,
-  // ) {
-  //   const reservationDoc = this.reservationsService.update(id, {
-  //     reservationStatus: status,
-  //   });
-  // }
+  @Mutation(() => ReservationEntity)
+  async updateReservationStatus(
+    @Args('_id', { type: () => ID }) id: string,
+    @Args('status', { type: () => ReservationStatus })
+    status: ReservationStatus,
+  ) {
+    const reservationDoc = this.reservationsService.updateStatus(id, status);
+    return reservationDoc;
+  }
 
   @ResolveField('leader', () => MemberEntity)
   async getLeader(

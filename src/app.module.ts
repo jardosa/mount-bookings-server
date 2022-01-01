@@ -9,7 +9,6 @@ import {
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { CatsModule } from './cats/cats.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AuthorModule } from './author/author.module';
 import { PostsModule } from './posts/posts.module';
@@ -20,11 +19,11 @@ import { AuthModule } from './auth/auth.module';
 import { CaslModule } from './casl/casl.module';
 import { MembersModule } from './members/members.module';
 import { ReservationsModule } from './reservations/reservations.module';
+import { DestinationsModule } from './destinations/destinations.module';
 import config from './config';
 
 @Module({
   imports: [
-    CatsModule,
     AuthorModule,
     DefaultResolver,
     PostsModule,
@@ -41,6 +40,7 @@ import config from './config';
     CaslModule,
     MembersModule,
     ReservationsModule,
+    DestinationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

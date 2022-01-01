@@ -68,4 +68,17 @@ export class ReservationsService {
     const reservationDoc = await this.reservationModel.findByIdAndDelete(id);
     return reservationDoc;
   }
+
+  async updateStatus(
+    id: string,
+    status: ReservationStatus,
+  ): Promise<Reservation> {
+    const reservationDoc = await this.reservationModel.findByIdAndUpdate(
+      id,
+      { reservationStatus: status },
+      { new: true },
+    );
+
+    return reservationDoc;
+  }
 }

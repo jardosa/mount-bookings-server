@@ -6,7 +6,7 @@ export type MemberDocument = Member & Document;
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, autoIndex: true })
 export class Member {
   @Field()
   @Prop()

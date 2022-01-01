@@ -77,6 +77,19 @@ type ReservationConnection implements NodeConnection {
   nodes: [ReservationEntity!]!
 }
 
+type DestinationEntity implements Node {
+  name: String!
+  description: String!
+  maxSlots: Float!
+  slotsLeft: Float!
+  _id: ID!
+}
+
+type DestinationConnection implements NodeConnection {
+  totalCount: Int!
+  nodes: [DestinationEntity!]!
+}
+
 type Query {
   author(id: Int!): Author!
   posts: [Post!]!
@@ -89,6 +102,8 @@ type Query {
   member(_id: String!): MemberEntity!
   reservations: ReservationConnection!
   reservation(_id: ID!): ReservationEntity!
+  destinations: DestinationConnection!
+  destination(id: Int!): DestinationEntity!
 }
 
 type Mutation {
@@ -109,6 +124,10 @@ type Mutation {
   createReservation(createReservationInput: CreateReservationInput!): ReservationEntity!
   updateReservation(updateReservationInput: UpdateReservationInput!): ReservationEntity!
   removeReservation(_id: ID!): ReservationEntity!
+  updateReservationStatus(status: Status!, _id: ID!): ReservationEntity!
+  createDestination(createDestinationInput: CreateDestinationInput!): DestinationEntity!
+  updateDestination(updateDestinationInput: UpdateDestinationInput!): DestinationEntity!
+  removeDestination(id: Int!): DestinationEntity!
 }
 
 input CreateAuthorInput {
@@ -191,4 +210,17 @@ input UpdateReservationInput {
   hikeDateEnd: DateTime
   reservationStatus: Status = Pending
   _id: ID!
+}
+
+input CreateDestinationInput {
+  name: String!
+  description: String!
+  maxSlots: Float!
+}
+
+input UpdateDestinationInput {
+  name: String
+  description: String
+  maxSlots: Float
+  id: Int!
 }
