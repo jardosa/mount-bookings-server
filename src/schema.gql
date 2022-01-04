@@ -82,6 +82,7 @@ type DestinationEntity implements Node {
   description: String!
   maxSlots: Float!
   slotsLeft: Float!
+  imageUrl: String
   _id: ID!
 }
 

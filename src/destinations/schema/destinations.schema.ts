@@ -21,6 +21,10 @@ export class Destination {
   @Prop()
   @Field()
   slotsLeft: number;
+
+  @Prop()
+  @Field({ nullable: true })
+  imageUrl?: string;
 }
 
 export const DestinationsSchema = SchemaFactory.createForClass(Destination);
