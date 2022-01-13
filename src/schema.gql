@@ -77,6 +77,34 @@ type ReservationConnection implements NodeConnection {
   nodes: [ReservationEntity!]!
 }
 
+type ProvinceConnection implements NodeConnection {
+  totalCount: Int!
+  nodes: [Province!]!
+}
+
+type Region implements Node {
+  _id: ID!
+  regDesc: String!
+  regCode: String!
+
+  """Philippine Standard Geographic Code"""
+  psgcCode: String
+  provinces: [Province!]!
+}
+
+type Province implements Node {
+  _id: ID!
+  provDesc: String!
+  psgcCode: String!
+  provCode: String!
+  region: Region!
+}
+
+type RegionConnection implements NodeConnection {
+  totalCount: Int!
+  nodes: [Region!]!
+}
+
 type DestinationEntity implements Node {
   name: String!
   description: String!
@@ -105,6 +133,8 @@ type Query {
   reservation(_id: ID!): ReservationEntity!
   destinations: DestinationConnection!
   destination(id: Int!): DestinationEntity!
+  findAllRegions: RegionConnection!
+  findAllProvinces: ProvinceConnection!
 }
 
 type Mutation {

@@ -11,10 +11,24 @@ export type ProvinceDocument = Province & Document;
 export class Province extends Node {
   @Prop()
   @Field()
-  name: string;
+  provDesc: string;
 
-  @Prop({ type: Types.ObjectId })
+  @Prop()
+  @Field()
+  psgcCode: string;
+
+  @Prop()
+  @Field()
+  provCode: string;
+
+  // FIX PROVINCE SCHEMA AND RESOLVER`
+  @Prop({ type: String })
   @Field(() => Region)
-  regionId: Region;
+  region: string;
 }
 export const ProvinceSchema = SchemaFactory.createForClass(Province);
+
+export const ProvinceFactory = () => {
+  const schema = ProvinceSchema;
+  return schema;
+};

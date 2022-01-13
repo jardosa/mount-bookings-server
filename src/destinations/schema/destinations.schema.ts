@@ -35,5 +35,6 @@ export const DestinationFactory = () => {
   schema.pre('save', async function setSlotsLeft() {
     this.set('slotsLeft', this.get('maxSlots'));
   });
+
   return schema;
 };
