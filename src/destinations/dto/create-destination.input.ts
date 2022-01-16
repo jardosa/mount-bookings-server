@@ -10,4 +10,7 @@ export class CreateDestinationInput {
 
   @Field()
   maxSlots: number;
+
+  @Field()
+  province: string;
 }

@@ -36,8 +36,14 @@ export class DestinationsService implements OnModuleInit {
     return destinationDocs;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} destination`;
+  async findOne(_id: string): Promise<DestinationDocument> {
+    const destinationDoc = this.destinationModel.findOne({ _id });
+    return destinationDoc;
+  }
+
+  async findOneBySlug(slug: string): Promise<DestinationDocument> {
+    const destinationDoc = this.destinationModel.findOne({ slug });
+    return destinationDoc;
   }
 
   update(id: number, updateDestinationInput: UpdateDestinationInput) {
@@ -71,6 +77,11 @@ export class DestinationsService implements OnModuleInit {
   async createRegion(createRegionInput: CreateRegionInput) {
     const doc = new this.regionModel(createRegionInput);
     return doc.save();
+  }
+
+  async findProvinceByName(name: string): Promise<ProvinceDocument> {
+    const provinceDoc = await this.provinceModel.findOne({ provDesc: name });
+    return provinceDoc;
   }
 
   async findProvincesByRegionId(

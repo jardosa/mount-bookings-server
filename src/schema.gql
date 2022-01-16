@@ -109,9 +109,12 @@ type DestinationEntity implements Node {
   name: String!
   description: String!
   maxSlots: Float!
+  slug: String!
   slotsLeft: Float!
   imageUrl: String
+  province: Province!
   _id: ID!
+  provinces: [Province!]!
 }
 
 type DestinationConnection implements NodeConnection {
@@ -132,9 +135,11 @@ type Query {
   reservations: ReservationConnection!
   reservation(_id: ID!): ReservationEntity!
   destinations: DestinationConnection!
-  destination(id: Int!): DestinationEntity!
+  destinationById(_id: ID!): DestinationEntity!
+  destinationBySlug(slug: String!): DestinationEntity!
   findAllRegions: RegionConnection!
   findAllProvinces: ProvinceConnection!
+  findProvince: Province!
 }
 
 type Mutation {
@@ -247,11 +252,13 @@ input CreateDestinationInput {
   name: String!
   description: String!
   maxSlots: Float!
+  province: String!
 }
 
 input UpdateDestinationInput {
   name: String
   description: String
   maxSlots: Float
+  province: String
   id: Int!
 }

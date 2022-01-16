@@ -23,7 +23,12 @@ export class ProvincesResolver {
     };
   }
 
-  // TODO: Fix Field Resolver
+  @Query(() => Province)
+  async findProvince(name: string): Promise<Province> {
+    const province = await this.destinationsService.findProvinceByName(name);
+    return province;
+  }
+
   @ResolveField('region', () => Region)
   async getRegion(@Parent() province: Province): Promise<RegionDocument> {
     const { region } = province;
