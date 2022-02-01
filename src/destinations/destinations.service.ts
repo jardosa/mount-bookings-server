@@ -37,7 +37,7 @@ export class DestinationsService implements OnModuleInit {
   }
 
   async findOne(_id: string): Promise<DestinationDocument> {
-    const destinationDoc = this.destinationModel.findOne({ _id });
+    const destinationDoc = await this.destinationModel.findOne({ _id });
     return destinationDoc;
   }
 

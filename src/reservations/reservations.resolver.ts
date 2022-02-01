@@ -1,3 +1,9 @@
+import { DestinationEntity } from './../destinations/entities/destination.entity';
+import { DestinationsService } from './../destinations/destinations.service';
+import {
+  Destination,
+  DestinationDocument,
+} from './../destinations/schema/destinations.schema';
 import { MembersService } from './../members/members.service';
 import { MemberEntity } from './../members/entities/member.entity';
 import {
@@ -24,6 +30,7 @@ export class ReservationsResolver {
   constructor(
     private readonly reservationsService: ReservationsService,
     private readonly memberService: MembersService,
+    private readonly destinationService: DestinationsService,
   ) {}
 
   @Mutation(() => ReservationEntity)
@@ -97,5 +104,17 @@ export class ReservationsResolver {
     );
 
     return members;
+  }
+
+  @ResolveField('destination', () => DestinationEntity)
+  async getDestination(
+    @Parent() reservation: ReservationEntity,
+  ): Promise<DestinationDocument> {
+    const { _id } = reservation;
+    const doc = await this.reservationsService.findOne(_id);
+    const destinationDoc = await this.destinationService.findOne(
+      doc.destination,
+    );
+    return destinationDoc;
   }
 }

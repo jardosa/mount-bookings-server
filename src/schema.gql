@@ -56,27 +56,6 @@ interface NodeConnection {
   totalCount: Int!
 }
 
-type ReservationEntity implements Node {
-  leader: MemberEntity!
-  members: [MemberEntity!]!
-  reservationStatus: Status!
-  hikeDateStart: DateTime!
-  hikeDateEnd: DateTime!
-  _id: ID!
-}
-
-enum Status {
-  Pending
-  Approved
-  Declined
-  Cancelled
-}
-
-type ReservationConnection implements NodeConnection {
-  totalCount: Int!
-  nodes: [ReservationEntity!]!
-}
-
 type ProvinceConnection implements NodeConnection {
   totalCount: Int!
   nodes: [Province!]!
@@ -120,6 +99,28 @@ type DestinationEntity implements Node {
 type DestinationConnection implements NodeConnection {
   totalCount: Int!
   nodes: [DestinationEntity!]!
+}
+
+type ReservationEntity implements Node {
+  leader: MemberEntity!
+  members: [MemberEntity!]!
+  destination: DestinationEntity!
+  reservationStatus: Status!
+  hikeDateStart: DateTime!
+  hikeDateEnd: DateTime!
+  _id: ID!
+}
+
+enum Status {
+  Pending
+  Approved
+  Declined
+  Cancelled
+}
+
+type ReservationConnection implements NodeConnection {
+  totalCount: Int!
+  nodes: [ReservationEntity!]!
 }
 
 type Query {
@@ -234,6 +235,7 @@ input UpdateMemberInput {
 input CreateReservationInput {
   leader: CreateMemberInput!
   members: [CreateMemberInput!]!
+  destination: ID!
   hikeDateStart: DateTime!
   hikeDateEnd: DateTime!
   reservationStatus: Status = Pending
@@ -242,6 +244,7 @@ input CreateReservationInput {
 input UpdateReservationInput {
   leader: CreateMemberInput
   members: [CreateMemberInput!]
+  destination: ID
   hikeDateStart: DateTime
   hikeDateEnd: DateTime
   reservationStatus: Status = Pending

@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateReservationInput } from './dto/create-reservation.input';
 import { UpdateReservationInput } from './dto/update-reservation.input';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { ReservationStatus } from './enums/reservations.enum';
 import { MemberDocument } from 'src/members/schemas/members.schema';
 
@@ -18,7 +18,7 @@ export class ReservationsService {
   async create(
     createReservationInput: CreateReservationInput,
   ): Promise<Reservation> {
-    const { leader, members, ...rest } = createReservationInput;
+    const { leader, members, destination, ...rest } = createReservationInput;
 
     // Check if leader already exists
     const leaderRec = await this.memberService.findOne({
@@ -43,6 +43,7 @@ export class ReservationsService {
       leader: leaderRec?._id ?? newLeaderRec._id,
       members: memberDocs.map((member) => member?._id),
       reservationStatus: ReservationStatus.Pending,
+      destination: new Types.ObjectId(destination),
       ...rest,
     });
     return createdReservation.save();

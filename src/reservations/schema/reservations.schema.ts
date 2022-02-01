@@ -1,3 +1,4 @@
+import { Destination } from './../../destinations/schema/destinations.schema';
 import { Types } from 'mongoose';
 // import { CreateMemberInput } from './../../members/dto/create-member.input';
 
@@ -20,6 +21,10 @@ export class Reservation {
   @Prop({ type: [Types.ObjectId] })
   @Field(() => [MemberEntity])
   members: MemberEntity[];
+
+  @Prop({ type: Types.ObjectId })
+  @Field(() => Destination)
+  destination: string;
 
   @Prop()
   @Field(() => ReservationStatus)

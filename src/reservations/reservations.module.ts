@@ -1,3 +1,4 @@
+import { DestinationsModule } from './../destinations/destinations.module';
 import { MembersModule } from 'src/members/members.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { Reservation, ReservationSchema } from './schema/reservations.schema';
       { name: Reservation.name, schema: ReservationSchema },
     ]),
     MembersModule,
+    DestinationsModule,
   ],
   providers: [ReservationsResolver, ReservationsService],
 })
